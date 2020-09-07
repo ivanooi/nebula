@@ -52,7 +52,7 @@ public class Stepbar extends Canvas {
 	private List<String> steps = new ArrayList<>();
 	private boolean bottom = false;
 	private int currentStep = 0;
-	private boolean onError = false;
+	private boolean onError = false, onDone = false ;
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style value
@@ -148,6 +148,19 @@ public class Stepbar extends Canvas {
 					final int centerX = x + CIRCLE_DIAMETER / 2;
 					gc.fillRectangle(centerX - 2, y + 5, 4, 9);
 					gc.fillRectangle(centerX - 2, y + 16, 4, 4);
+				} else 
+			        if (i == currentStep && onDone ) {
+			    	
+					gc.setBackground(getForeground());
+					gc.fillOval(x, y, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+					gc.setForeground(getBackground());
+					gc.setBackground(getForeground());
+					gc.setLineWidth(2);
+					final int centerX = CIRCLE_DIAMETER / 2;
+					final int centerY = CIRCLE_DIAMETER / 2;
+					gc.drawLine(x + 6, y + centerY, x + 9, y + centerY + 4);
+					gc.drawLine(x + 9, y + centerY + 4, x + centerX + 6, y + centerY - 3);
+					
 				} else {
 					// Empty circle
 					if (i == currentStep) {
@@ -416,6 +429,11 @@ public class Stepbar extends Canvas {
 	public void setErrorState(final boolean errorState) {
 		checkWidget();
 		onError = errorState;
+		redraw();
+	}
+	public void setDoneState(final boolean doneState) {
+		checkWidget();
+		onDone = doneState;
 		redraw();
 	}
 
